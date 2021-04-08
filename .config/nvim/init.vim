@@ -11,12 +11,11 @@ Plug 'Xuyuanp/nerdtree-git-plugin' " show git status for files in Nerdtree
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } " fast fuzzy finder
 Plug 'junegunn/fzf.vim' " june's custom fzf bindings for vim 
 Plug 'justinmk/vim-sneak' "s<char><char> then s or S to move about
-Plug 'w0rp/ale' "vim asynchronous syntax checker
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' } "opinionated autoformatter
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } "autocomplete framework
 Plug 'ryanoasis/vim-devicons' " pretty icons for various vim plugins
 Plug 'itchyny/lightline.vim' " a status line
 Plug 'tpope/vim-surround' " add tag to word csw{tag}, add tag to visual selection S{tag}, change tag cs{pre tag}{tag}    
+Plug 'neovim/nvim-lspconfig'
 
 " ====== syntax highlighting support ===========
 Plug 'mustache/vim-mustache-handlebars'
@@ -34,14 +33,10 @@ call plug#end()
 " ==============================================
 " plugin config
 " ==============================================
-let g:ale_fixers = {
- \ 'javascript': ['eslint', 'prettier'],
- \ 'markdown' : ['prettier'],
- \ 'css': ['prettier'],
- \ 'html': ['prettier']
- \ }
-let g:ale_fix_on_save = 1
-let g:deoplete#enable_at_startup = 1
+lua << EOF
+require'lspconfig'.tsserver.setup{}
+require'lspconfig'.cssls.setup{}
+EOF
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 let NERDTreeAutoDeleteBuffer = 1
 let NERDTreeMinimalUI = 1
@@ -62,6 +57,7 @@ nnoremap <C-n> :NERDTreeToggle<CR>
 nnoremap <C-p> :FZF<CR>
 nnoremap <C-f> :Rg<CR> 
 nnoremap <C-t> :Buffers<CR>
+nnoremap <C-g> :NERDTreeFind<CR>
 
 " ===== split navigation =======================
 nnoremap <C-J> <C-W><C-J>
