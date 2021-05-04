@@ -6,16 +6,13 @@ Plug 'jiangmiao/auto-pairs' "create pairs of parenthesis, apostrophes, with curs
 Plug 'tpope/vim-commentary' " use gc to comment selection/gcc to comment out lines
 Plug 'airblade/vim-gitgutter' "show git status in the margin of a file
 Plug 'tpope/vim-fugitive' " use :Git to run git commands from vim instance
-Plug 'scrooloose/nerdtree' " use <C-n> to show file explorer tree view
-Plug 'Xuyuanp/nerdtree-git-plugin' " show git status for files in Nerdtree
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
+Plug 'tpope/vim-vinegar'
 Plug 'mbbill/undotree'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'justinmk/vim-sneak' "s<char><char> then s or S to move about
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' } "opinionated autoformatter
-Plug 'ryanoasis/vim-devicons' " pretty icons for various vim plugins
-Plug 'itchyny/lightline.vim' " a status line
 Plug 'tpope/vim-surround' " add tag to word csw{tag}, add tag to visual selection S{tag}, change tag cs{pre tag}{tag}    
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -76,7 +73,7 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
   buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
   buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  buf_set_keymap('n', '<S>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
   buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
   buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
   buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
@@ -125,12 +122,7 @@ EOF
 " ==============================================
 let g:deoplete#enable_at_startup = 1
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-let NERDTreeAutoDeleteBuffer = 1
-let NERDTreeMinimalUI = 1
-let NERDTreeDirArrows = 1
 let g:sneak#s_next = 1
-let g:lightline = {'colorscheme': 'sonokai'}
-let $FZF_DEFAULT_COMMAND='rg --files --ignore-case --hidden -g "!{.git,node_modules,vendor,lib,es,codemods}/*"'
 
 " ==============================================
 " editor config
@@ -139,7 +131,7 @@ let mapleader = " "
 :inoremap jk <Esc>
 nnoremap <C-z> za
 nnoremap <F5> :UndotreeToggle<CR>
-nnoremap <C-n> :NERDTreeToggle<CR>
+nnoremap <C-s> :Sex<CR>
 nnoremap <C-g> :NERDTreeFind<CR>
 nnoremap <C-p> <cmd>lua require('telescope.builtin').find_files()<cr>
 nnoremap <C-f> <cmd>lua require('telescope.builtin').live_grep()<cr>
@@ -160,9 +152,7 @@ set relativenumber
 set nu
 set hidden
 set noerrorbells
-set nohlsearch
 set signcolumn=yes
-set colorcolumn=80
 set nowrap
 set clipboard=unnamedplus
 set encoding=UTF-8
@@ -186,13 +176,7 @@ set smartindent
 set termguicolors
 set noswapfile
 set nobackup
-set noshowcmd
-set noshowmode
 set nowb
 set cursorline
 set shortmess+=F
 set updatetime=100
-set nofoldenable
-set foldmethod=indent
-set foldignore=
-set foldlevel=9

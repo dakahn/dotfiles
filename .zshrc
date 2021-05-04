@@ -17,11 +17,8 @@ alias master='main'
 #####################################################
 # Tmux aliases 
 #####################################################
-alias tkill='tmux kill-session -t'
-alias tkillall='tmux kill-session -a'
-alias tlast='tmux attach-session'
-alias tls='tmux ls'
-alias tnew='tmux new -s'
+alias tn="tmux -u new"
+alias ta="tmux -u attach"
 
 
 #####################################################
