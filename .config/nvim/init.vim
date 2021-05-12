@@ -1,31 +1,116 @@
-" ==============================================
+" =============================================================================
 " plugins
-" ==============================================
+" =============================================================================
 call plug#begin('~/.local/share/nvim/plugged')
-Plug 'jiangmiao/auto-pairs' "create pairs of parenthesis, apostrophes, with cursor in the middle
-Plug 'tpope/vim-commentary' " use gc to comment selection/gcc to comment out lines
-Plug 'airblade/vim-gitgutter' "show git status in the margin of a file
-Plug 'tpope/vim-fugitive' " use :Git to run git commands from vim instance
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
-Plug 'tpope/vim-vinegar'
-Plug 'mbbill/undotree'
-Plug 'nvim-telescope/telescope.nvim'
-Plug 'justinmk/vim-sneak' "s<char><char> then s or S to move about
-Plug 'prettier/vim-prettier', { 'do': 'yarn install' } "opinionated autoformatter
-Plug 'tpope/vim-surround' " add tag to word csw{tag}, add tag to visual selection S{tag}, change tag cs{pre tag}{tag}    
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins'  }
-
-" ====== colorscheme ===========================
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'airblade/vim-gitgutter' 
+Plug 'tpope/vim-fugitive' 
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-vinegar'
+Plug 'mbbill/undotree'
+Plug 'justinmk/vim-sneak' 
+Plug 'prettier/vim-prettier', { 'do': 'yarn install'} 
+Plug 'jxnblk/vim-mdx-js'
 Plug 'sainnhe/sonokai'
+Plug 'Shougo/deoplete.nvim'
 call plug#end()
 
-" ==============================================
-" lsp config 
-" ==============================================
+" =============================================================================
+" configs
+" =============================================================================
+let g:deoplete#enable_at_startup = 1
+let g:sneak#s_next = 1
+let mapleader = " "
+:inoremap jk <Esc>
+nnoremap <F5> :UndotreeToggle<CR>
+nnoremap <C-s> :Sex!<CR>
+nnoremap <C-p> <cmd>lua require('telescope.builtin').find_files()<cr>
+nnoremap <C-f> <cmd>lua require('telescope.builtin').live_grep()<cr>
+nnoremap <C-b> <cmd>lua require('telescope.builtin').buffers()<cr>
+" ===== split navigation =======================
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+" =============================================================================
+" sets
+" =============================================================================
+colorscheme sonokai 
+if exists('+termguicolors')
+  set termguicolors
+endif
+set relativenumber
+set nu
+set nowrap
+set hidden
+set noerrorbells
+set colorcolumn=80
+set signcolumn=yes
+set clipboard=unnamedplus
+set encoding=UTF-8
+set scrolloff=8
+set splitbelow
+set splitright
+set ignorecase
+set smartcase
+set title
+set ruler
+set number
+set so=7
+filetype plugin on
+set wildmode=list:longest
+set wildmenu
+set expandtab
+set tabstop=2 softtabstop=2
+set shiftwidth=2
+set smartindent
+set termguicolors
+set noswapfile
+set nobackup
+set nowb
+set cursorline
+set shortmess+=F
+set updatetime=100
+
+" =============================================================================
+" lsp config
+" =============================================================================
 lua << EOF
+require('telescope').setup{
+  defaults = {
+    vimgrep_arguments = {
+      'rg',
+      '--color=never',
+      '--no-heading',
+      '--with-filename',
+      '--line-number',
+      '--column',
+      '--smart-case'
+    },
+    prompt_position = "bottom",
+    prompt_prefix = ">",
+    selection_strategy = "reset",
+    sorting_strategy = "descending",
+    layout_strategy = "horizontal",
+    layout_defaults = {},
+    file_ignore_patterns = {},
+    shorten_path = true,
+    winblend = 0,
+    width = 0.75,
+    preview_cutoff = 120,
+    results_height = 1,
+    results_width = 0.8,
+    border = {},
+    borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰'},
+    color_devicons = true,
+    use_less = true,
+  }
+}
 require'lspconfig'.tsserver.setup{}
 require'lspconfig'.cssls.setup{}
 require'lspconfig'.rust_analyzer.setup{
@@ -67,34 +152,9 @@ local on_attach = function(client, bufnr)
 
   buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-  -- Mappings.
   local opts = { noremap=true, silent=true }
-  buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
   buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  buf_set_keymap('n', '<S>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-  buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
-  buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-  buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-  buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-  buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-  buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
 
-  -- Set some keybinds conditional on server capabilities
-  if client.resolved_capabilities.document_formatting then
-    buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
-  end
-  if client.resolved_capabilities.document_range_formatting then
-    buf_set_keymap("v", "<space>f", "<cmd>lua vim.lsp.buf.range_formatting()<CR>", opts)
-  end
-
-  -- Set autocommands conditional on server_capabilities
   if client.resolved_capabilities.document_highlight then
     vim.api.nvim_exec([[
       hi LspReferenceRead cterm=bold ctermbg=red guibg=LightYellow
@@ -109,74 +169,9 @@ local on_attach = function(client, bufnr)
   end
 end
 
--- Use a loop to conveniently both setup defined servers 
--- and map buffer local keybindings when the language server attaches
 local servers = { "pyright", "rust_analyzer", "tsserver" }
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup { on_attach = on_attach }
 end
 EOF
 
-" ==============================================
-" plugin config
-" ==============================================
-let g:deoplete#enable_at_startup = 1
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-let g:sneak#s_next = 1
-
-" ==============================================
-" editor config
-" ==============================================
-let mapleader = " "
-:inoremap jk <Esc>
-nnoremap <C-z> za
-nnoremap <F5> :UndotreeToggle<CR>
-nnoremap <C-s> :Sex<CR>
-nnoremap <C-g> :NERDTreeFind<CR>
-nnoremap <C-p> <cmd>lua require('telescope.builtin').find_files()<cr>
-nnoremap <C-f> <cmd>lua require('telescope.builtin').live_grep()<cr>
-nnoremap <C-t> <cmd>lua require('telescope.builtin').buffers()<cr>
-
-" ===== split navigation =======================
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
-
-colorscheme sonokai 
-if exists('+termguicolors')
-  set termguicolors
-endif
-set guicursor=
-set relativenumber
-set nu
-set hidden
-set noerrorbells
-set signcolumn=yes
-set nowrap
-set clipboard=unnamedplus
-set encoding=UTF-8
-set scrolloff=8
-set splitbelow
-set splitright
-set ignorecase
-set smartcase
-set title
-set scrolloff=1
-set ruler
-set number
-set so=7
-filetype plugin on
-set wildmode=list:longest
-set wildmenu
-set expandtab
-set tabstop=2 softtabstop=2
-set shiftwidth=2
-set smartindent
-set termguicolors
-set noswapfile
-set nobackup
-set nowb
-set cursorline
-set shortmess+=F
-set updatetime=100

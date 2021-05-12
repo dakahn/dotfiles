@@ -3,6 +3,7 @@
 #####################################################
 alias python="python3"
 alias proj='cd ~/projects'
+alias note='cd ~/notes'
 alias carb='cd ~/projects/carbon'
 alias recarb='cd ~/projects/carbon/packages/react'
 alias carbsite='cd ~/projects/carbon-website'
@@ -11,6 +12,7 @@ alias vcfg='nvim ~/.config/nvim/init.vim'
 alias zcfg='nvim ~/.zshrc'
 alias szcfg='source ~/.zshrc'
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+alias cua='config add ~/.config/nvim/init.vim ~/.taskrc ~/.zshrc && config commit && config push origin master'
 alias python='python2'
 alias master='main'
 
