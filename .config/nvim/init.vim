@@ -4,9 +4,9 @@
 call plug#begin('~/.local/share/nvim/plugged')
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'nvim-telescope/telescope.nvim'
 Plug 'airblade/vim-gitgutter' 
 Plug 'tpope/vim-fugitive' 
 Plug 'tpope/vim-commentary'
@@ -17,6 +17,8 @@ Plug 'prettier/vim-prettier', { 'do': 'yarn install'}
 Plug 'jxnblk/vim-mdx-js'
 Plug 'sainnhe/sonokai'
 Plug 'Shougo/deoplete.nvim'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 call plug#end()
 
 " =============================================================================
@@ -26,12 +28,13 @@ let g:deoplete#enable_at_startup = 1
 let g:sneak#s_next = 1
 let mapleader = " "
 :inoremap jk <Esc>
-nnoremap <F5> :UndotreeToggle<CR>
-nnoremap <C-s> :Sex!<CR>
-nnoremap <C-p> <cmd>lua require('telescope.builtin').find_files()<cr>
-nnoremap <C-f> <cmd>lua require('telescope.builtin').live_grep()<cr>
-nnoremap <C-b> <cmd>lua require('telescope.builtin').buffers()<cr>
-" ===== split navigation =======================
+nnoremap <C-h> :UndotreeToggle<CR>
+nnoremap <C-s> :Sex<CR>
+nnoremap <C-p> :GFiles<CR>
+nnoremap <C-f> :Rg<CR>
+nnoremap <C-b> :Buf<CR>
+nnoremap <C-g> :Commits<CR>
+" ===== split navigation ==============
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
@@ -54,8 +57,8 @@ set signcolumn=yes
 set clipboard=unnamedplus
 set encoding=UTF-8
 set scrolloff=8
-set splitbelow
-set splitright
+" set splitbelow
+" set splitright
 set ignorecase
 set smartcase
 set title
@@ -81,36 +84,6 @@ set updatetime=100
 " lsp config
 " =============================================================================
 lua << EOF
-require('telescope').setup{
-  defaults = {
-    vimgrep_arguments = {
-      'rg',
-      '--color=never',
-      '--no-heading',
-      '--with-filename',
-      '--line-number',
-      '--column',
-      '--smart-case'
-    },
-    prompt_position = "bottom",
-    prompt_prefix = ">",
-    selection_strategy = "reset",
-    sorting_strategy = "descending",
-    layout_strategy = "horizontal",
-    layout_defaults = {},
-    file_ignore_patterns = {},
-    shorten_path = true,
-    winblend = 0,
-    width = 0.75,
-    preview_cutoff = 120,
-    results_height = 1,
-    results_width = 0.8,
-    border = {},
-    borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰'},
-    color_devicons = true,
-    use_less = true,
-  }
-}
 require'lspconfig'.tsserver.setup{}
 require'lspconfig'.cssls.setup{}
 require'lspconfig'.rust_analyzer.setup{

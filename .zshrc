@@ -12,9 +12,7 @@ alias vcfg='nvim ~/.config/nvim/init.vim'
 alias zcfg='nvim ~/.zshrc'
 alias szcfg='source ~/.zshrc'
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
-alias cua='config add ~/.config/nvim/init.vim ~/.taskrc ~/.zshrc 
-           && config commit 
-           && config push origin master'
+alias cua='config add ~/.config/nvim/init.vim ~/.taskrc ~/.zshrc && config commit && config push origin master'
 alias python='python2'
 alias master='main'
 
