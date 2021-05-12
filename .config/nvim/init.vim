@@ -27,6 +27,7 @@ call plug#end()
 let g:deoplete#enable_at_startup = 1
 let g:sneak#s_next = 1
 let mapleader = " "
+let g:fzf_preview_window = ['up:40%:hidden', 'ctrl-/']
 :inoremap jk <Esc>
 nnoremap <C-h> :UndotreeToggle<CR>
 nnoremap <C-s> :Sex<CR>
@@ -57,8 +58,8 @@ set signcolumn=yes
 set clipboard=unnamedplus
 set encoding=UTF-8
 set scrolloff=8
-" set splitbelow
-" set splitright
+set splitbelow
+set splitright
 set ignorecase
 set smartcase
 set title
