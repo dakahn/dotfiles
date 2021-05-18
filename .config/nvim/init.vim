@@ -16,25 +16,28 @@ Plug 'justinmk/vim-sneak'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install'} 
 Plug 'jxnblk/vim-mdx-js'
 Plug 'sainnhe/sonokai'
-Plug 'Shougo/deoplete.nvim'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
+Plug 'vim-airline/vim-airline'
+" Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+" Plug 'junegunn/fzf.vim'
 call plug#end()
 
 " =============================================================================
 " configs
 " =============================================================================
-let g:deoplete#enable_at_startup = 1
 let g:sneak#s_next = 1
 let mapleader = " "
-let g:fzf_preview_window = ['up:40%:hidden', 'ctrl-/']
-:inoremap jk <Esc>
+let g:prettier#autoformat_config_present = 1
+let g:airline_powerline_fonts = 1
+inoremap jk <Esc>
 nnoremap <C-h> :UndotreeToggle<CR>
 nnoremap <C-s> :Sex<CR>
-nnoremap <C-p> :GFiles<CR>
-nnoremap <C-f> :Rg<CR>
-nnoremap <C-b> :Buf<CR>
-nnoremap <C-g> :Commits<CR>
+nnoremap <C-p> <cmd>Telescope find_files<cr>
+nnoremap <C-f> <cmd>Telescope live_grep<cr>
+nnoremap <C-b> <cmd>Telescope buffers<cr>
+" nnoremap <C-p> :GFiles<CR>
+" nnoremap <C-f> :Rg<CR>
+" nnoremap <C-b> :Buf<CR>
+" nnoremap <C-g> :Commits<CR>
 " ===== split navigation ==============
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
@@ -131,9 +134,6 @@ local on_attach = function(client, bufnr)
 
   if client.resolved_capabilities.document_highlight then
     vim.api.nvim_exec([[
-      hi LspReferenceRead cterm=bold ctermbg=red guibg=LightYellow
-      hi LspReferenceText cterm=bold ctermbg=red guibg=LightYellow
-      hi LspReferenceWrite cterm=bold ctermbg=red guibg=LightYellow
       augroup lsp_document_highlight
         autocmd! * <buffer>
         autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
@@ -148,4 +148,3 @@ for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup { on_attach = on_attach }
 end
 EOF
-
