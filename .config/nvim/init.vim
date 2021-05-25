@@ -14,30 +14,29 @@ Plug 'tpope/vim-vinegar'
 Plug 'mbbill/undotree'
 Plug 'justinmk/vim-sneak' 
 Plug 'prettier/vim-prettier', { 'do': 'yarn install'} 
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'jxnblk/vim-mdx-js'
 Plug 'sainnhe/sonokai'
 Plug 'vim-airline/vim-airline'
-" Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-" Plug 'junegunn/fzf.vim'
 call plug#end()
 
 " =============================================================================
 " configs
 " =============================================================================
+let g:deoplete#enable_at_startup = 1
+" don't run Deoplete in Telescope buffers
+autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_complete', v:false)
 let g:sneak#s_next = 1
 let mapleader = " "
 let g:prettier#autoformat_config_present = 1
 let g:airline_powerline_fonts = 1
 inoremap jk <Esc>
-nnoremap <C-h> :UndotreeToggle<CR>
-nnoremap <C-s> :Sex<CR>
+nnoremap <C-h> :UndotreeToggle<cr>
+nnoremap <C-s> :Sex<cr>
 nnoremap <C-p> <cmd>Telescope find_files<cr>
 nnoremap <C-f> <cmd>Telescope live_grep<cr>
 nnoremap <C-b> <cmd>Telescope buffers<cr>
-" nnoremap <C-p> :GFiles<CR>
-" nnoremap <C-f> :Rg<CR>
-" nnoremap <C-b> :Buf<CR>
-" nnoremap <C-g> :Commits<CR>
+nmap <C-g> :G<cr>
 " ===== split navigation ==============
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
@@ -51,12 +50,13 @@ colorscheme sonokai
 if exists('+termguicolors')
   set termguicolors
 endif
+set noshowmode
+set noshowcmd
 set relativenumber
 set nu
 set nowrap
 set hidden
 set noerrorbells
-set colorcolumn=80
 set signcolumn=yes
 set clipboard=unnamedplus
 set encoding=UTF-8
