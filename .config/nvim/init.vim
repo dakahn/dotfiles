@@ -52,9 +52,7 @@ if exists('+termguicolors')
 endif
 set noshowmode
 set noshowcmd
-set relativenumber
 set nu
-set nowrap
 set hidden
 set noerrorbells
 set signcolumn=yes
