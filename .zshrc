@@ -2,11 +2,10 @@
 # System aliases 
 #####################################################
 alias python="python3"
-alias proj='cd ~/projects'
-alias note='cd ~/notes'
-alias carb='cd ~/projects/carbon'
-alias recarb='cd ~/projects/carbon/packages/react'
-alias carbsite='cd ~/projects/carbon-website'
+alias code='cd ~/Code'
+alias carb='cd ~/Code/carbon'
+alias recarb='cd ~/Code/carbon/packages/react'
+alias carbsite='cd ~/Code/carbon-website'
 alias v='nvim'
 alias vcfg='nvim ~/.config/nvim/init.vim'
 alias zcfg='nvim ~/.zshrc'
