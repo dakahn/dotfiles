@@ -18,11 +18,13 @@ Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'jxnblk/vim-mdx-js'
 Plug 'sainnhe/sonokai'
 Plug 'vim-airline/vim-airline'
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 call plug#end()
 
 " =============================================================================
 " configs
 " =============================================================================
+let g:mkdp_auto_start = 1
 let g:deoplete#enable_at_startup = 1
 " don't run Deoplete in Telescope buffers
 autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_complete', v:false)
