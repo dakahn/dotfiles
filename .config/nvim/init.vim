@@ -12,14 +12,12 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-vinegar'
 Plug 'mbbill/undotree'
 Plug 'justinmk/vim-sneak' 
-Plug 'prettier/vim-prettier', { 'do': 'yarn install'} 
 Plug 'nvim-lua/completion-nvim'
 Plug 'jxnblk/vim-mdx-js'
 Plug 'sainnhe/sonokai'
 Plug 'vim-airline/vim-airline'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 Plug 'neovim/nvim-lspconfig'
-Plug 'andweeb/presence.nvim'
 call plug#end()
 
 " =============================================================================
@@ -35,7 +33,7 @@ inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap jk <Esc>
 nnoremap <C-h> :UndotreeToggle<cr>
 nnoremap <C-s> :Sex<cr>
-nnoremap <C-p> <cmd>Telescope find_files<cr>
+nnoremap <C-p> <cmd>Telescope git_files<cr>
 nnoremap <C-f> <cmd>Telescope live_grep<cr>
 nnoremap <C-b> <cmd>Telescope buffers<cr>
 nmap <C-g> :G<cr>
@@ -47,7 +45,6 @@ nnoremap <C-H> <C-W><C-H>
 " Use completion-nvim in every buffer
 autocmd BufEnter * lua require'completion'.on_attach()
 lua << EOF
-require("presence"):setup({})
 require'lspconfig'.tsserver.setup{}
 require'lspconfig'.html.setup{}
 require'lspconfig'.cssls.setup{}
