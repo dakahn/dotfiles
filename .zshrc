@@ -13,7 +13,21 @@ alias szcfg='source ~/.zshrc'
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias cua='config add ~/.config/nvim/init.vim ~/.taskrc ~/.zshrc && config commit && config push origin master'
 alias master='main'
-alias python='python2'
+alias f='fzf'
+alias la='ls -A -1'
+alias cg='cd `git rev-parse --show-toplevel`'
+alias ..='cd ..'
+alias ...='cd .. && cd ..'
+alias ....='cd .. && cd .. && cd ..'
+alias g='git'
+alias gs='git status'
+alias ga='git add'
+alias gaa='git add .'
+alias gc='git commit'
+alias gp='git push'
+alias gb='git branch'
+alias gpum'git pull upstream main'
+alias gpoh'git push origin HEAD'
 
 #####################################################
 # Tmux aliases 
@@ -49,10 +63,6 @@ bindkey -a 'p' pastefromclipboard
 #####################################################
 # Setup 
 #####################################################
-fpath+=$HOME/.zsh/pure
-autoload -U promptinit; promptinit
-prompt pure
-
 TERM=screen-256color
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
@@ -62,3 +72,9 @@ TERM=screen-256color
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+fpath=($fpath "/home/dak/.zfunctions")
+
+autoload -U promptinit; promptinit
+prompt spaceship
+
+

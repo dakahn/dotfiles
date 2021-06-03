@@ -13,25 +13,25 @@ Plug 'tpope/vim-vinegar'
 Plug 'mbbill/undotree'
 Plug 'justinmk/vim-sneak' 
 Plug 'prettier/vim-prettier', { 'do': 'yarn install'} 
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'nvim-lua/completion-nvim'
 Plug 'jxnblk/vim-mdx-js'
 Plug 'sainnhe/sonokai'
 Plug 'vim-airline/vim-airline'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 Plug 'neovim/nvim-lspconfig'
+Plug 'andweeb/presence.nvim'
 call plug#end()
 
 " =============================================================================
 " configs
 " =============================================================================
 let g:mkdp_auto_start = 1
-let g:deoplete#enable_at_startup = 1
-" don't run Deoplete in Telescope buffers
-autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_complete', v:false)
 let g:sneak#s_next = 1
 let mapleader = " "
 let g:prettier#autoformat_config_present = 1
 let g:airline_powerline_fonts = 1
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap jk <Esc>
 nnoremap <C-h> :UndotreeToggle<cr>
 nnoremap <C-s> :Sex<cr>
@@ -44,12 +44,30 @@ nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
-" ===== Tree-Sitter ==============
+" Use completion-nvim in every buffer
+autocmd BufEnter * lua require'completion'.on_attach()
 lua << EOF
+require("presence"):setup({})
 require'lspconfig'.tsserver.setup{}
 require'lspconfig'.html.setup{}
 require'lspconfig'.cssls.setup{}
-require'lspconfig'.rust_analyzer.setup{}
+require'lspconfig'.rust_analyzer.setup({
+    on_attach=on_attach,
+    settings = {
+        ["rust-analyzer"] = {
+            assist = {
+                importGranularity = "module",
+                importPrefix = "by_self",
+            },
+            cargo = {
+                loadOutDirsFromCheck = true
+            },
+            procMacro = {
+                enable = true
+            },
+        }
+    }
+})
 require'nvim-treesitter.configs'.setup {
   ensure_installed = "maintained",
   highlight = {
@@ -71,6 +89,7 @@ colorscheme sonokai
 if exists('+termguicolors')
   set termguicolors
 endif
+set completeopt=menuone,noinsert,noselect
 set noshowmode
 set noshowcmd
 set nu
@@ -100,6 +119,6 @@ set noswapfile
 set nobackup
 set nowb
 set cursorline
-set shortmess+=F
+set shortmess+=c
 set updatetime=100
 
