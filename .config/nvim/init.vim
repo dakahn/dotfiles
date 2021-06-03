@@ -18,6 +18,7 @@ Plug 'jxnblk/vim-mdx-js'
 Plug 'sainnhe/sonokai'
 Plug 'vim-airline/vim-airline'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+Plug 'neovim/nvim-lspconfig'
 call plug#end()
 
 " =============================================================================
@@ -45,6 +46,10 @@ nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 " ===== Tree-Sitter ==============
 lua << EOF
+require'lspconfig'.tsserver.setup{}
+require'lspconfig'.html.setup{}
+require'lspconfig'.cssls.setup{}
+require'lspconfig'.rust_analyzer.setup{}
 require'nvim-treesitter.configs'.setup {
   ensure_installed = "maintained",
   highlight = {
@@ -54,9 +59,7 @@ require'nvim-treesitter.configs'.setup {
     enable = true
   }
 }
-
 local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
-
 parser_config.javascript.used_by = "javascript.jsx"
 parser_config.typescript.used_by = "javascript.jsx"
 EOF
