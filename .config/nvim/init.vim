@@ -15,6 +15,7 @@ Plug 'justinmk/vim-sneak'
 Plug 'nvim-lua/completion-nvim'
 Plug 'jxnblk/vim-mdx-js'
 Plug 'sainnhe/sonokai'
+Plug 'prettier/vim-prettier' 
 Plug 'vim-airline/vim-airline'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 Plug 'neovim/nvim-lspconfig'
@@ -44,6 +45,7 @@ nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 " Use completion-nvim in every buffer
 autocmd BufEnter * lua require'completion'.on_attach()
+
 lua << EOF
 require'lspconfig'.tsserver.setup{}
 require'lspconfig'.html.setup{}
