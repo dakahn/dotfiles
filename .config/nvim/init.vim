@@ -24,7 +24,7 @@ call plug#end()
 " =============================================================================
 " configs
 " =============================================================================
-let g:mkdp_auto_start = 1
+let g:mkdp_auto_start = 0
 let g:sneak#s_next = 1
 let mapleader = " "
 let g:prettier#autoformat_config_present = 1
