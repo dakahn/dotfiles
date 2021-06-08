@@ -4,7 +4,9 @@
 call plug#begin('~/.local/share/nvim/plugged')
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim'
+"Plug 'nvim-telescope/telescope.nvim'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'airblade/vim-gitgutter' 
 Plug 'tpope/vim-fugitive' 
@@ -34,9 +36,12 @@ inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap jk <Esc>
 nnoremap <C-h> :UndotreeToggle<cr>
 nnoremap <C-s> :Sex<cr>
-nnoremap <C-p> <cmd>Telescope git_files<cr>
-nnoremap <C-f> <cmd>Telescope live_grep<cr>
-nnoremap <C-b> <cmd>Telescope buffers<cr>
+" nnoremap <C-p> <cmd>Telescope git_files<cr>
+" nnoremap <C-f> <cmd>Telescope live_grep<cr>
+" nnoremap <C-b> <cmd>Telescope buffers<cr>
+nnoremap <C-p> :GFiles<cr>
+nnoremap <C-f> :Rg<cr>
+nnoremap <C-b> :Buffers<cr>
 nmap <C-g> :G<cr>
 " ===== split navigation ==============
 nnoremap <C-J> <C-W><C-J>

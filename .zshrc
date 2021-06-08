@@ -4,6 +4,8 @@
 alias python="python3"
 alias code='cd ~/Code'
 alias carb='cd ~/Code/carbon'
+alias note='cd ~/Notes'
+alias nn='cd ~/Notes && nvim .'
 alias recarb='cd ~/Code/carbon/packages/react'
 alias carbsite='cd ~/Code/carbon-website'
 alias v='nvim'
