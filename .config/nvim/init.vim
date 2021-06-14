@@ -6,7 +6,7 @@ Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'pangloss/vim-javascript'
 Plug 'airblade/vim-gitgutter' 
 Plug 'tpope/vim-fugitive' 
 Plug 'tpope/vim-commentary'
@@ -26,11 +26,9 @@ call plug#end()
 " configs
 " =============================================================================
 let g:mkdp_auto_start = 0
-let g:sneak#s_next = 1
 let mapleader = " "
 let g:prettier#autoformat_config_present = 1
 let g:airline_powerline_fonts = 1
-let g:fzf_preview_window = []
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap jk <Esc>
@@ -40,14 +38,9 @@ nnoremap <C-p> :GFiles<cr>
 nnoremap <C-f> :Rg<cr>
 nnoremap <C-b> :Buffers<cr>
 nmap <C-g> :G<cr>
-" ===== split navigation ==============
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
-" Use completion-nvim in every buffer
-autocmd BufEnter * lua require'completion'.on_attach()
+nnoremap <Tab> za
 
+" Neovim LSP Setup
 lua << EOF
 require'lspconfig'.tsserver.setup{}
 require'lspconfig'.html.setup{}
@@ -69,19 +62,15 @@ require'lspconfig'.rust_analyzer.setup({
         }
     }
 })
-require'nvim-treesitter.configs'.setup {
-  ensure_installed = "maintained",
-  highlight = {
-    enable = true,
-  },
-  indent = {
-    enable = true
-  }
-}
-local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
-parser_config.javascript.used_by = "javascript.jsx"
-parser_config.typescript.used_by = "javascript.jsx"
 EOF
+
+" ===== split navigation ==============
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+" Use completion-nvim in every buffer
+autocmd BufEnter * lua require'completion'.on_attach()
 
 " =============================================================================
 " sets
@@ -122,4 +111,5 @@ set nowb
 set cursorline
 set shortmess+=c
 set updatetime=100
-
+set foldmethod=indent
+set foldlevel=20
