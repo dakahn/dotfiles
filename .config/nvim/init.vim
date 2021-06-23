@@ -28,12 +28,14 @@ call plug#end()
 " configs
 " =============================================================================
 inoremap jk <Esc>
+let g:sonokai_style = 'shusia'
 let g:mkdp_auto_start = 1
 let mapleader = " "
 let g:prettier#autoformat_config_present = 1
 let g:airline_powerline_fonts = 1
 let g:markdown_fenced_languages = ['html', 'javascript', 'rust']
 let g:deoplete#enable_at_startup = 1
+let g:fzf_preview_window = []
 nmap <C-g> :G<cr>
 " ===== Folds ================================================================
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
