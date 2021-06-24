@@ -18,7 +18,6 @@ Plug 'tpope/vim-surround'
 Plug 'mbbill/undotree'
 Plug 'justinmk/vim-sneak' 
 Plug 'jxnblk/vim-mdx-js'
-Plug 'sainnhe/sonokai'
 Plug 'prettier/vim-prettier' 
 Plug 'arcticicestudio/nord-vim'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
@@ -28,7 +27,6 @@ call plug#end()
 " configs
 " =============================================================================
 inoremap jk <Esc>
-"let g:sonokai_style = 'shusia'
 let g:mkdp_auto_start = 1
 let mapleader = " "
 let g:prettier#autoformat_config_present = 1
