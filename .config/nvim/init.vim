@@ -15,7 +15,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-surround'
-Plug 'mbbill/undotree'
 Plug 'justinmk/vim-sneak' 
 Plug 'jxnblk/vim-mdx-js'
 Plug 'prettier/vim-prettier' 
@@ -27,12 +26,10 @@ call plug#end()
 " configs
 " =============================================================================
 inoremap jk <Esc>
-let g:mkdp_auto_start = 1
 let mapleader = " "
 let g:prettier#autoformat_config_present = 1
 let g:markdown_fenced_languages = ['html', 'javascript', 'rust']
 let g:deoplete#enable_at_startup = 1
-let g:fzf_preview_window = []
 nmap <C-g> :G<cr>
 " ===== Folds ================================================================
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
@@ -44,6 +41,21 @@ nnoremap <C-s> :Sex<cr>
 nnoremap <C-p> :GFiles<cr>
 nnoremap <C-f> :Rg<cr>
 nnoremap <C-b> :Buffers<cr>
+let g:fzf_preview_window = []
+let g:fzf_colors =                                                                         
+    \ { 'fg':      ['fg', 'Normal'],                                                           
+      \ 'bg':      ['bg', 'Normal'],                                                           
+      \ 'hl':      ['fg', 'Comment'],                                                          
+      \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],                             
+      \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],                                       
+      \ 'hl+':     ['fg', 'Statement'],                                                        
+      \ 'info':    ['fg', 'PreProc'],                                                          
+      \ 'border':  ['fg', 'Ignore'],                                                           
+      \ 'prompt':  ['fg', 'Conditional'],                                                      
+      \ 'pointer': ['fg', 'Exception'],                                                        
+      \ 'marker':  ['fg', 'Keyword'],                                                          
+      \ 'spinner': ['fg', 'Label'],                                                            
+      \ 'header':  ['fg', 'Comment'] }
 " ===== split nav ============================================================
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
@@ -142,12 +154,13 @@ augroup GetGitBranch
 augroup END
 
 " =============================================================================
-" sets
+" General sets
 " =============================================================================
 if exists('+termguicolors')
   set termguicolors
 endif
 colorscheme nord 
+set colorcolumn=80
 set completeopt=menuone,noinsert,noselect
 set noshowmode
 set noshowcmd
