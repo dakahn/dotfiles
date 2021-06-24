@@ -21,22 +21,6 @@ autoload -U promptinit; promptinit
 prompt spaceship
 
 #####################################################
-# Clipboard config 
-#####################################################
-yanktoclipboard(){
-      echo $BUFFER | xsel -i -b
-      
-}
-pastefromclipboard(){
-      RBUFFER=$(xsel -o -b </dev/null)$RBUFFER
-      
-}
-zle -N yanktoclipboard
-zle -N pastefromclipboard
-bindkey -a 'yy' yanktoclipboard
-bindkey -a 'p' pastefromclipboard
-
-#####################################################
 # System aliases 
 #####################################################
 alias code='cd ~/Code'
@@ -66,5 +50,21 @@ alias runtests='yarn test --changedSince=master'
 # Raises the limit to 10000 open files for the current session and reloads the shell
 alias prebuild='sudo prlimit -p "$$" --nofile=10000:10000 && exec zsh'
 alias bigdev='NODE_OPTIONS=--max_old_space_size=8192 yarn dev'
+
+#####################################################
+# Clipboard config 
+#####################################################
+yanktoclipboard(){
+      echo $BUFFER | xsel -i -b
+      
+}
+pastefromclipboard(){
+      RBUFFER=$(xsel -o -b </dev/null)$RBUFFER
+      
+}
+zle -N yanktoclipboard
+zle -N pastefromclipboard
+bindkey -a 'yy' yanktoclipboard
+bindkey -a 'p' pastefromclipboard
 
 task

@@ -20,7 +20,7 @@ Plug 'justinmk/vim-sneak'
 Plug 'jxnblk/vim-mdx-js'
 Plug 'sainnhe/sonokai'
 Plug 'prettier/vim-prettier' 
-Plug 'vim-airline/vim-airline'
+Plug 'arcticicestudio/nord-vim'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 call plug#end()
 
@@ -28,11 +28,10 @@ call plug#end()
 " configs
 " =============================================================================
 inoremap jk <Esc>
-let g:sonokai_style = 'shusia'
+"let g:sonokai_style = 'shusia'
 let g:mkdp_auto_start = 1
 let mapleader = " "
 let g:prettier#autoformat_config_present = 1
-let g:airline_powerline_fonts = 1
 let g:markdown_fenced_languages = ['html', 'javascript', 'rust']
 let g:deoplete#enable_at_startup = 1
 let g:fzf_preview_window = []
@@ -93,14 +92,64 @@ for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup { on_attach = on_attach }
 end
 EOF
+" ===== Statusline ============================================================
+set laststatus=2
+set statusline=
+set statusline+=\ 
+set statusline+=%{StatuslineMode()}
+set statusline+=\ 
+set statusline+=%{b:gitbranch}
+set statusline+=\ 
+set statusline+=%f
+set statusline+=%m
+
+function! StatuslineMode()
+  let l:mode=mode()
+  if l:mode==#"n"
+    return "NORMAL"
+  elseif l:mode==?"v"
+    return "VISUAL"
+  elseif l:mode==#"i"
+    return "INSERT"
+  elseif l:mode==#"R"
+    return "REPLACE"
+  elseif l:mode==?"s"
+    return "SELECT"
+  elseif l:mode==#"t"
+    return "TERMINAL"
+  elseif l:mode==#"c"
+    return "COMMAND"
+  elseif l:mode==#"!"
+    return "SHELL"
+  endif
+endfunction
+
+function! StatuslineGitBranch()
+  let b:gitbranch=""
+  if &modifiable
+    try
+      let l:dir=expand('%:p:h')
+      let l:gitrevparse = system("git -C ".l:dir." rev-parse --abbrev-ref HEAD")
+      if !v:shell_error
+        let b:gitbranch="(".substitute(l:gitrevparse, '\n', '', 'g').") "
+      endif
+    catch
+    endtry
+  endif
+endfunction
+
+augroup GetGitBranch
+  autocmd!
+  autocmd VimEnter,WinEnter,BufEnter * call StatuslineGitBranch()
+augroup END
 
 " =============================================================================
 " sets
 " =============================================================================
-colorscheme sonokai 
 if exists('+termguicolors')
   set termguicolors
 endif
+colorscheme nord 
 set completeopt=menuone,noinsert,noselect
 set noshowmode
 set noshowcmd
@@ -135,3 +184,4 @@ set shortmess+=c
 set updatetime=100
 set foldmethod=indent
 set foldlevel=20
+
