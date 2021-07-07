@@ -8,6 +8,8 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'itchyny/vim-gitbranch' 
 Plug 'pangloss/vim-javascript'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'airblade/vim-gitgutter' 
@@ -35,6 +37,8 @@ nmap <C-g> :G<cr>
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 nnoremap <Tab> za
+set foldmethod=indent
+set foldlevel=20
 " ===== FZF.vim ==============================================================
 nnoremap <C-h> :UndotreeToggle<cr>
 nnoremap <C-s> :Sex<cr>
@@ -101,6 +105,10 @@ local servers = { "pyright", "rust_analyzer", "tsserver" }
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup { on_attach = on_attach }
 end
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = "maintained",
+  highlight = {enable = true},
+}
 EOF
 " ===== Statusline ============================================================
 set laststatus=2
@@ -108,7 +116,7 @@ set statusline=
 set statusline+=\ 
 set statusline+=%{StatuslineMode()}
 set statusline+=\ 
-set statusline+=%{b:gitbranch}
+set statusline+=%{gitbranch#name()}
 set statusline+=\ 
 set statusline+=%f
 set statusline+=%m
@@ -154,14 +162,14 @@ augroup GetGitBranch
 augroup END
 
 " =============================================================================
-" General sets
+" Misc. sets
 " =============================================================================
 if exists('+termguicolors')
   set termguicolors
 endif
 colorscheme nord 
 set colorcolumn=80
-set completeopt=menuone,noinsert,noselect
+set completeopt=longest,menuone
 set noshowmode
 set noshowcmd
 set nu
@@ -193,6 +201,3 @@ set nowb
 set cursorline
 set shortmess+=c
 set updatetime=100
-set foldmethod=indent
-set foldlevel=20
-
