@@ -1,5 +1,5 @@
 " =============================================================================
-" plugins
+" plugins and modules
 " =============================================================================
 call plug#begin('~/.local/share/nvim/plugged')
 Plug 'nvim-lua/popup.nvim'
@@ -21,9 +21,8 @@ Plug 'prettier/vim-prettier'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 Plug 'vim-test/vim-test'
 Plug 'simrat39/symbols-outline.nvim'
-" ===== Theme =================================================================
-Plug 'sainnhe/sonokai' 
 Plug 'sainnhe/everforest'
+" Plug 'sainnhe/sonokai' 
 " Plug 'chriskempson/base16-vim' 
 " Plug 'jxnblk/vim-mdx-js'
 " Plug 'pangloss/vim-javascript'
@@ -31,6 +30,8 @@ Plug 'sainnhe/everforest'
 call plug#end()
 
 lua require('init')
+source ~/.config/nvim/statusline.vim
+
 " =============================================================================
 " configs
 " =============================================================================
@@ -76,56 +77,6 @@ nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
-" ===== Statusline ============================================================
-set laststatus=2
-set statusline=
-set statusline+=\ 
-set statusline+=%{StatuslineMode()}
-set statusline+=\ 
-set statusline+=%{gitbranch#name()}
-set statusline+=\ 
-set statusline+=%f
-set statusline+=%m
-
-function! StatuslineMode()
-  let l:mode=mode()
-  if l:mode==#"n"
-    return "NORMAL"
-  elseif l:mode==?"v"
-    return "VISUAL"
-  elseif l:mode==#"i"
-    return "INSERT"
-  elseif l:mode==#"R"
-    return "REPLACE"
-  elseif l:mode==?"s"
-    return "SELECT"
-  elseif l:mode==#"t"
-    return "TERMINAL"
-  elseif l:mode==#"c"
-    return "COMMAND"
-  elseif l:mode==#"!"
-    return "SHELL"
-  endif
-endfunction
-
-function! StatuslineGitBranch()
-  let b:gitbranch=""
-  if &modifiable
-    try
-      let l:dir=expand('%:p:h')
-      let l:gitrevparse = system("git -C ".l:dir." rev-parse --abbrev-ref HEAD")
-      if !v:shell_error
-        let b:gitbranch="(".substitute(l:gitrevparse, '\n', '', 'g').") "
-      endif
-    catch
-    endtry
-  endif
-endfunction
-
-augroup GetGitBranch
-  autocmd!
-  autocmd VimEnter,WinEnter,BufEnter * call StatuslineGitBranch()
-augroup END
 
 " =============================================================================
 " Misc. sets

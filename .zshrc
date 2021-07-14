@@ -36,6 +36,7 @@ alias szcfg='source ~/.zshrc'
 update_config() {
   config add ~/.config/nvim/init.vim 
   config add ~/.config/nvim/lua/init.lua 
+  config add ~/.config/nvim/statusline.vim
   config add ~/.taskrc ~/.zshrc 
   config commit
   config push origin master
