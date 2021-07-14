@@ -46,7 +46,6 @@ alias master='main'
 alias f='fzf'
 alias la='ls -A -1'
 alias cg='cd `git rev-parse --show-toplevel`'
-
 #####################################################
 # Carbon aliases 
 #####################################################
@@ -70,5 +69,3 @@ zle -N yanktoclipboard
 zle -N pastefromclipboard
 bindkey -a 'yy' yanktoclipboard
 bindkey -a 'p' pastefromclipboard
-
-task
