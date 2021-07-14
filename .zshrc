@@ -35,11 +35,11 @@ alias zcfg='nvim ~/.zshrc'
 alias szcfg='source ~/.zshrc'
 update_config() {
   config add ~/.config/nvim/init.vim 
-  config add ~/.config/nvim/lua/init.lua 
-  config add ~/.config/nvim/statusline.vim
-  config add ~/.taskrc ~/.zshrc 
-  config commit
-  config push origin master
+  && config add ~/.config/nvim/lua/init.lua 
+  && config add ~/.config/nvim/statusline.vim
+  && config add ~/.taskrc ~/.zshrc 
+  && config commit
+  && config push origin master
 }
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias cua=update_config()

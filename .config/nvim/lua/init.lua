@@ -1,4 +1,5 @@
 require'lspconfig'.tsserver.setup{}
+
 require'lspconfig'.rust_analyzer.setup({
     on_attach=on_attach,
     settings = {
@@ -16,12 +17,14 @@ require'lspconfig'.rust_analyzer.setup({
         }
     }
 })
+
 local nvim_lsp = require('lspconfig')
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     vim.lsp.diagnostic.on_publish_diagnostics, {
         virtual_text = false
     }
 )
+
 local on_attach = function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
@@ -35,6 +38,7 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '<space>r', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
   buf_set_keymap('n', '<space>R', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
 end
+
 local servers = { "rust_analyzer", "tsserver" }
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup { on_attach = on_attach }
@@ -46,6 +50,7 @@ require'nvim-treesitter.configs'.setup {
 }
 
 require("trouble").setup {}
+
 vim.g.symbols_outline = {
     highlight_hovered_item = true,
     show_guides = true,
