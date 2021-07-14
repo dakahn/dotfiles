@@ -39,9 +39,6 @@ alias master='main'
 alias f='fzf'
 alias la='ls -A -1'
 alias cg='cd `git rev-parse --show-toplevel`'
-alias ..='cd ..'
-alias ...='cd .. && cd ..'
-alias ....='cd .. && cd .. && cd ..'
 
 #####################################################
 # Carbon aliases 

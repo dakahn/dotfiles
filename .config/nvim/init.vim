@@ -4,44 +4,54 @@
 call plug#begin('~/.local/share/nvim/plugged')
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'folke/trouble.nvim'
 Plug 'neovim/nvim-lspconfig'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'itchyny/vim-gitbranch' 
-Plug 'pangloss/vim-javascript'
-Plug 'maxmellon/vim-jsx-pretty'
-Plug 'airblade/vim-gitgutter' 
 Plug 'tpope/vim-fugitive' 
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-vinegar'
-Plug 'tpope/vim-surround'
+Plug 'jiangmiao/auto-pairs'
 Plug 'justinmk/vim-sneak' 
-Plug 'jxnblk/vim-mdx-js'
 Plug 'prettier/vim-prettier' 
-Plug 'arcticicestudio/nord-vim'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+Plug 'vim-test/vim-test'
+Plug 'simrat39/symbols-outline.nvim'
+" ===== Theme =================================================================
+Plug 'sainnhe/sonokai' 
+Plug 'sainnhe/everforest'
+" Plug 'chriskempson/base16-vim' 
+" Plug 'jxnblk/vim-mdx-js'
+" Plug 'pangloss/vim-javascript'
+" Plug 'maxmellon/vim-jsx-pretty'
 call plug#end()
 
 " =============================================================================
 " configs
 " =============================================================================
 inoremap jk <Esc>
+nmap <C-g> :G diff<cr>
+nnoremap <C-s> :Sex<cr>
+nnoremap <C-e> :TroubleToggle<cr>
 let mapleader = " "
 let g:prettier#autoformat_config_present = 1
 let g:markdown_fenced_languages = ['html', 'javascript', 'rust']
 let g:deoplete#enable_at_startup = 1
-nmap <C-g> :G<cr>
+let test#strategy = "neovim"
 " ===== Folds ================================================================
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 nnoremap <Tab> za
 set foldmethod=indent
 set foldlevel=20
+if has('nvim')
+  tmap <C-o> <C-\><C-n>
+endif
 " ===== FZF.vim ==============================================================
-nnoremap <C-h> :UndotreeToggle<cr>
-nnoremap <C-s> :Sex<cr>
 nnoremap <C-p> :GFiles<cr>
 nnoremap <C-f> :Rg<cr>
 nnoremap <C-b> :Buffers<cr>
@@ -65,51 +75,6 @@ nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
-" ===== Neovim LSP ===========================================================
-lua << EOF
-require'lspconfig'.tsserver.setup{}
-require'lspconfig'.html.setup{}
-require'lspconfig'.cssls.setup{}
-require'lspconfig'.rust_analyzer.setup({
-    on_attach=on_attach,
-    settings = {
-        ["rust-analyzer"] = {
-            assist = {
-                importGranularity = "module",
-                importPrefix = "by_self",
-            },
-            cargo = {
-                loadOutDirsFromCheck = true
-            },
-            procMacro = {
-                enable = true
-            },
-        }
-    }
-})
-local nvim_lsp = require('lspconfig')
-local on_attach = function(client, bufnr)
-  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-  local opts = { noremap=true, silent=true }
-  buf_set_keymap('n', '<space>d', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  buf_set_keymap('n', '<space>h', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  buf_set_keymap('n', '<space>s', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-  buf_set_keymap('n', '<space>t', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-  buf_set_keymap('n', '<space>i', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-  buf_set_keymap('n', '<space>r', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  buf_set_keymap('n', '<space>R', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-end
-local servers = { "pyright", "rust_analyzer", "tsserver" }
-for _, lsp in ipairs(servers) do
-  nvim_lsp[lsp].setup { on_attach = on_attach }
-end
-require'nvim-treesitter.configs'.setup {
-  ensure_installed = "maintained",
-  highlight = {enable = true},
-}
-EOF
 " ===== Statusline ============================================================
 set laststatus=2
 set statusline=
@@ -167,7 +132,7 @@ augroup END
 if exists('+termguicolors')
   set termguicolors
 endif
-colorscheme nord 
+colorscheme everforest
 set colorcolumn=80
 set completeopt=longest,menuone
 set noshowmode
@@ -175,7 +140,7 @@ set noshowcmd
 set nu
 set hidden
 set noerrorbells
-set signcolumn=yes
+set signcolumn=number
 set clipboard=unnamedplus
 set encoding=UTF-8
 set scrolloff=8
@@ -201,3 +166,73 @@ set nowb
 set cursorline
 set shortmess+=c
 set updatetime=100
+" ===== init.lua ===========================================================
+lua << EOF
+require'lspconfig'.tsserver.setup{}
+require'lspconfig'.html.setup{}
+require'lspconfig'.cssls.setup{}
+require'lspconfig'.rust_analyzer.setup({
+    on_attach=on_attach,
+    settings = {
+        ["rust-analyzer"] = {
+            assist = {
+                importGranularity = "module",
+                importPrefix = "by_self",
+            },
+            cargo = {
+                loadOutDirsFromCheck = true
+            },
+            procMacro = {
+                enable = true
+            },
+        }
+    }
+})
+local nvim_lsp = require('lspconfig')
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+    vim.lsp.diagnostic.on_publish_diagnostics, {
+        virtual_text = false
+    }
+)
+local on_attach = function(client, bufnr)
+  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+  local opts = { noremap=true, silent=true }
+  buf_set_keymap('n', '<space>d', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  buf_set_keymap('n', '<space>h', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  buf_set_keymap('n', '<space>s', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  buf_set_keymap('n', '<space>t', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+  buf_set_keymap('n', '<space>i', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+  buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+  buf_set_keymap('n', '<space>r', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+  buf_set_keymap('n', '<space>R', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+end
+local servers = { "pyright", "rust_analyzer", "tsserver" }
+for _, lsp in ipairs(servers) do
+  nvim_lsp[lsp].setup { on_attach = on_attach }
+end
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = "maintained",
+  highlight = {enable = true},
+}
+require("trouble").setup {}
+vim.g.symbols_outline = {
+    highlight_hovered_item = true,
+    show_guides = true,
+    auto_preview = true,
+    position = 'right',
+    show_numbers = false,
+    show_relative_numbers = false,
+    show_symbol_details = true,
+    keymaps = {
+        close = "<Esc>",
+        goto_location = "<Cr>",
+        focus_location = "o",
+        hover_symbol = "<C-space>",
+        rename_symbol = "r",
+        code_actions = "a",
+    },
+    lsp_blacklist = {},
+}
+EOF
+
