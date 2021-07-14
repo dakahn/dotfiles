@@ -30,6 +30,7 @@ Plug 'sainnhe/everforest'
 " Plug 'maxmellon/vim-jsx-pretty'
 call plug#end()
 
+lua require('init')
 " =============================================================================
 " configs
 " =============================================================================
@@ -167,4 +168,3 @@ set cursorline
 set shortmess+=c
 set updatetime=100
 
-lua require('init')
