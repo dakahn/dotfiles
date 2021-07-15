@@ -35,13 +35,14 @@ alias zcfg='nvim ~/.zshrc'
 alias szcfg='source ~/.zshrc'
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias updot='
-config add ~/.config/nvim/init.vim \
-~/.config/nvim/lua/init.lua \
-~/.config/nvim/statusline.vim \
-~/.taskrc \
-~/.zshrc \
-&& config commit \
-&& config push origin master'
+  config add ~/.config/nvim/init.vim \
+  ~/.config/nvim/lua/init.lua \
+  ~/.config/nvim/statusline.vim \
+  ~/.taskrc \
+  ~/.zshrc \
+  && config commit \
+  && config push origin master \
+'
 alias master='main'
 alias f='fzf'
 alias la='ls -A -1'
