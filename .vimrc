@@ -3,8 +3,13 @@ if (has('termguicolors'))
 endif
 
 syntax on
-colorscheme unokai   
+colorscheme wildcharm   
 
+set hidden "
+set clipboard=unnamed,unnamedplus
+set showcmd
+set copyindent
+set preserveindent
 set noswapfile
 set laststatus=2
 set splitbelow
@@ -14,7 +19,7 @@ set ruler
 set linebreak
 set wildmenu
 set wildoptions=pum
-set wildmode=longest:full,full
+set wildmode=longest:list,full
 set textwidth=80
 set autoindent
 set autoread
@@ -26,7 +31,6 @@ set backspace=indent,eol,start
 set complete-=i
 set smarttab
 
-let mapleader = " "
 inoremap jk <Esc>
 nnoremap <Esc> :noh<cr>
 " ===== keep cursor in the middle ======
