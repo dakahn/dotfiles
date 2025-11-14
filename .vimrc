@@ -95,3 +95,7 @@ nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
+" Fzf
+nnoremap <C-p> :Files<cr>
+nnoremap <C-f> :Rg<cr>
+nnoremap <C-b> :Buffers<cr>
