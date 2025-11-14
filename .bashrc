@@ -12,7 +12,7 @@ if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]; then
 fi
 export PATH
 export VISUAL=vim
-export FZF_DEFAULT_COMMAND="fdfind --hidden --follow --exclude .git ."
+export FZF_DEFAULT_COMMAND="fd --hidden --follow --exclude .git ."
 
 
 ##############

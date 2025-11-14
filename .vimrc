@@ -1,3 +1,24 @@
+" Install vim-plug if not found
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+endif
+
+" Run PlugInstall if there are missing plugins
+autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+  \| PlugInstall --sync | source $MYVIMRC
+\| endif
+
+call plug#begin()
+Plug 'airblade/vim-gitgutter'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'jiangmiao/auto-pairs'
+Plug 'tpope/vim-vinegar'
+Plug 'tpope/vim-commentary'
+call plug#end()
+
+
 if (has('termguicolors'))
   set termguicolors
 endif
@@ -33,7 +54,8 @@ set statusline+=\ [%{&fileformat}\]
 set statusline+=%#Position#
 set statusline+=\ [%l/%L]
 
-
+set updatetime=100
+set signcolumn=yes
 set noshowmode
 set laststatus=2
 set hidden
@@ -49,7 +71,7 @@ set ruler
 set linebreak
 set wildmenu
 set wildoptions=pum
-set wildmode=longest:list,full
+set wildmode=longest:full,full
 set textwidth=80
 set autoindent
 set autoread
@@ -73,4 +95,3 @@ nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
-
