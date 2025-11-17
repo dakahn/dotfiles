@@ -13,6 +13,8 @@ call plug#begin()
 Plug 'airblade/vim-gitgutter'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'jiangmiao/auto-pairs'
+Plug 'preservim/vim-markdown'
 Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-commentary'
 call plug#end()
@@ -25,6 +27,8 @@ endif
 syntax on
 colorscheme wildcharm   
 
+let g:vim_markdown_folding_disabled = 1
+let g:vim_markdown_no_default_key_mappings = 1
 
 let g:currentmode={
 	\ 'n' : 'NORMAL ',
@@ -81,6 +85,7 @@ set hlsearch
 set backspace=indent,eol,start
 set complete-=i
 set smarttab
+set spell
 
 
 inoremap jk <Esc>
@@ -98,11 +103,3 @@ nnoremap <C-H> <C-W><C-H>
 nnoremap <C-p> :Files<cr>
 nnoremap <C-f> :Rg<cr>
 nnoremap <C-b> :Buffers<cr>
-" Autopairs
-inoremap { {}<Esc>ha
-inoremap ( ()<Esc>ha
-inoremap [ []<Esc>ha
-inoremap " ""<Esc>ha
-inoremap ' ''<Esc>ha
-inoremap ` ``<Esc>ha
-

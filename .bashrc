@@ -38,12 +38,13 @@ eval "$(fzf --bash)"
 #########
 # Aliases
 alias v='vim'
-alias sv='sudo vim'
+alias sv='sudoedit'
 alias vf='vim $(fzf)'
-alias svf='sudo vim $(fzf)'
+alias svf='sudoedit $(fzf)'
 alias dakpi='ssh 192.168.1.69'
 alias bashcfg='vim ~/.bashrc'
 alias bashsrc='source ~/.bashrc'
 alias vcfg='vim ~/.vimrc'
 alias config='/usr/bin/git --git-dir=/home/dakahn/.cfg/ --work-tree=/home/dakahn'
+alias ggconfig='config push origin master'
 
